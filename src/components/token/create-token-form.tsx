@@ -19,7 +19,7 @@ export const CreateTokenForm = () => {
   } = useTokenForm();
 
   return (
-    <Card.Root maxWidth="6xl" width="100%">
+    <Card.Root maxWidth="2xl" width="100%">
       <form
         onSubmit={(e) => {
           e.preventDefault();

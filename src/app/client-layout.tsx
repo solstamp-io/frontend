@@ -27,9 +27,7 @@ export function ClientLayout({
         <Provider>
           <Flex flexDirection="column" minHeight="100vh">
             <NavbarMenu />
-            <Container maxWidth={750} mt={16}>
-              {children}
-            </Container>
+            <Container mt={24}>{children}</Container>
             <Spacer />
           </Flex>
         </Provider>

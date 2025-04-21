@@ -11,7 +11,12 @@ import {
 export default function Faq() {
   return (
     <Center>
-      <AccordionRoot collapsible defaultValue={[]} variant="enclosed">
+      <AccordionRoot
+        collapsible
+        defaultValue={[]}
+        variant="enclosed"
+        maxWidth="2xl"
+      >
         {items.map((item, index) => (
           <AccordionItem key={index} value={item.value}>
             <AccordionItemTrigger cursor="pointer">
