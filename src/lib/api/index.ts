@@ -7,16 +7,13 @@ const uploadImage = async (
   data: FormData,
   network: NetworkType = "devnet",
 ): Promise<string> => {
-  const response = await fetch(
-    `${backendUrl}/upload-image?network=${network}`,
-    {
-      method: "POST",
-      mode: "cors",
-      headers: { "public-key": publicKey },
-      credentials: "omit",
-      body: data,
-    },
-  );
+  const response = await fetch(`${backendUrl}/image?network=${network}`, {
+    method: "POST",
+    mode: "cors",
+    headers: { "public-key": publicKey },
+    credentials: "omit",
+    body: data,
+  });
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -34,16 +31,13 @@ const createTokenTransaction = async (
   createTokenSchema: unknown, // TODO: type this at some point
   network: NetworkType = "devnet",
 ): Promise<string> => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL!}/create-token?network=${network}`,
-    {
-      method: "POST",
-      mode: "cors",
-      headers: { "content-type": "application/json", "public-key": publicKey },
-      credentials: "omit",
-      body: JSON.stringify(createTokenSchema),
-    },
-  );
+  const response = await fetch(`${backendUrl}/token?network=${network}`, {
+    method: "POST",
+    mode: "cors",
+    headers: { "content-type": "application/json", "public-key": publicKey },
+    credentials: "omit",
+    body: JSON.stringify(createTokenSchema),
+  });
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -61,18 +55,15 @@ const createNFTTransaction = async (
   metadata: unknown, // TODO: type this at some point
   network: NetworkType = "devnet",
 ): Promise<string> => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL!}/create-nft?network=${network}`,
-    {
-      method: "POST",
-      mode: "cors",
-      headers: { "content-type": "application/json", "public-key": publicKey },
-      credentials: "omit",
-      body: JSON.stringify({
-        metadata,
-      }),
-    },
-  );
+  const response = await fetch(`${backendUrl}/nft?network=${network}`, {
+    method: "POST",
+    mode: "cors",
+    headers: { "content-type": "application/json", "public-key": publicKey },
+    credentials: "omit",
+    body: JSON.stringify({
+      metadata,
+    }),
+  });
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -85,8 +76,37 @@ const createNFTTransaction = async (
   return serializedTransaction;
 };
 
+type ListNFTsResponse = {
+  items: {
+    name: string;
+    description: string;
+    imageURL: string;
+    solscanURL: string;
+  }[];
+};
+
+const listNFTs = async (
+  network: NetworkType = "devnet",
+): Promise<ListNFTsResponse> => {
+  const response = await fetch(`${backendUrl}/nft?network=${network}`, {
+    method: "GET",
+    mode: "cors",
+    headers: { "content-type": "application/json" },
+    credentials: "omit",
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const result = await response.json();
+
+  return result;
+};
+
 export const Api = {
   uploadImage,
+  listNFTs,
   createNFTTransaction,
   createTokenTransaction,
 };

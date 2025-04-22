@@ -1,4 +1,5 @@
 "use client";
+import { Api } from "@/lib/api";
 import {
   Card,
   Button,
@@ -10,6 +11,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { LuExternalLink } from "react-icons/lu";
+import { create } from "zustand";
 
 const nfts = createListCollection({
   items: [
@@ -68,6 +70,21 @@ const nfts = createListCollection({
   ],
 });
 
+const useStore = create((set) => ({
+  data: null,
+  isLoading: false,
+  error: null,
+
+  fetchData: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const data = await Api.listNFTs("devnet");
+    } catch (error) {
+      set({ error: error, isLoading: false });
+    }
+  },
+}));
+
 export default function NFTGallery() {
   return (
     <Center>
@@ -102,7 +119,7 @@ const NFTCard = ({ name, description, imageUrl, solscanURL }: NFTCardProps) => {
         <Card.Description>{description}</Card.Description>
       </Card.Body>
       <Card.Footer gap="2">
-        <Link href={solscanURL} target="_blank" rel="noopener noreferrer">
+        <Link href={solscanURL} target="_blank">
           Show on SolScan <LuExternalLink />
         </Link>
       </Card.Footer>

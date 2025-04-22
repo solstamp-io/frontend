@@ -1,15 +1,18 @@
+import { Tooltip } from "@/components/ui/tooltip";
 import {
   HStack,
   Box,
   Link as ChakraLink,
   Image,
   Spacer,
+  IconButton,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { ColorModeButton } from "@/components/ui/color-mode";
 import { usePathname } from "next/navigation";
 import SelectWalletButton from "./select-wallet-button";
 import SelectNetworkButton from "./select-network-button";
+import { FaGithub } from "react-icons/fa"; // Import GitHub icon from react-icons
 
 export const NavbarMenu = () => {
   const pathname = usePathname();
@@ -43,11 +46,38 @@ export const NavbarMenu = () => {
         </HStack>
         <Spacer />
         <HStack>
+          <GithubButton />
           <SelectNetworkButton />
           <SelectWalletButton />
           <ColorModeButton />
         </HStack>
       </HStack>
     </Box>
+  );
+};
+
+const GithubButton = () => {
+  return (
+    <Tooltip content="View Source Code on Github">
+      <ChakraLink
+        href="https://github.com/solstamp-io"
+        display="inline-flex"
+        target="_blank"
+      >
+        <IconButton
+          size="md"
+          variant="ghost"
+          aria-label="View on GitHub"
+          css={{
+            _icon: {
+              width: "5",
+              height: "5",
+            },
+          }}
+        >
+          <FaGithub />
+        </IconButton>
+      </ChakraLink>
+    </Tooltip>
   );
 };
