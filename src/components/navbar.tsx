@@ -39,6 +39,12 @@ export const NavbarMenu = () => {
           </ChakraLink>
           <ChakraLink
             asChild
+            variant={pathname === "/nft/gallery" ? "underline" : "plain"}
+          >
+            <NextLink href="/nft/gallery">NFT Gallery</NextLink>
+          </ChakraLink>
+          <ChakraLink
+            asChild
             variant={pathname === "/faq" ? "underline" : "plain"}
           >
             <NextLink href="/faq">FAQ</NextLink>

@@ -85,6 +85,13 @@ type ListNFTsResponse = {
   }[];
 };
 
+export type NFT = {
+  name: string;
+  description: string;
+  imageURL: string;
+  solscanURL: string;
+};
+
 const listNFTs = async (
   network: NetworkType = "devnet",
 ): Promise<ListNFTsResponse> => {
@@ -100,7 +107,6 @@ const listNFTs = async (
   }
 
   const result = await response.json();
-
   return result;
 };
 
