@@ -1,5 +1,6 @@
 import { NetworkType } from "@/lib/api";
 import { Select, createListCollection, Portal } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { create } from "zustand";
 
 interface NetworkStore {
@@ -28,15 +29,20 @@ const frameworks = createListCollection({
 const SelectNetworkButton = () => {
   const { network, setNetwork } = useNetworkStore();
 
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("network", network);
+    window.history.replaceState({}, "", url); // update actual URI
+  }, [network]);
+
   return (
     <Select.Root
       collection={frameworks}
       size="md"
       width="150px"
-      defaultValue={[network]}
-      onChange={(e) => {
-        const target = e.target as HTMLSelectElement;
-        setNetwork(target.value as NetworkType);
+      value={[network]}
+      onValueChange={(d) => {
+        setNetwork(d.value[0] as NetworkType);
       }}
     >
       <Select.HiddenSelect />
